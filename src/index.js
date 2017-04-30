@@ -14,6 +14,7 @@ app.set("port", 3001);
 app.post("/auth/signup", auth.signup);
 app.post("/auth/login", auth.login);
 app.get("/auth/validate", middAuth.authenticate, (req, res, next) => {
+  logger.log('info', "AUTHENTICATE");
   return res.status(200).send();
   next();
 });
