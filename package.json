@@ -1,8 +1,10 @@
 {
   "name": "auth",
   "scripts": {
-    "prestart": "babel src -d build",
-    "start": "node ./build/index.js"
+    "build": "babel src -d build",
+    "start": "node ./build/index.js",
+    "dev": "npm run build; node ./build/index.js",
+    "deploy": "now -e TOKEN_SECRET=@token_secret -e DB_USER=@db_user -e DB_PASSWORD=@db_password"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
