@@ -51,10 +51,36 @@ const login = (req, res, next) => {
   const email = req.body.email.toLowerCase();
   const password = req.body.password;
   const start = process.hrtime();
-  user.get({ email, password })
+  user.get( email, password )
   .then((user)=> {
     const end = process.hrtime(start);
     logger.log("info", "GET-USER-TIME", `${end[0]}.${end[1]}`);
+    if(user) {
+      return res.status(200).send({ token: token.generate(user) });
+    }
+    else {
+      return res.status(401).send();
+    }
+    next();
+  })
+  .catch((e) => {
+    return res.status(401).send();
+    next();
+  });
+};
+
+const activate = (req, res, next) => {
+  if (!req.body.email || !req.body.password) {
+    return res.status(422).send();
+    next();
+  }
+  const email = req.body.email.toLowerCase();
+  const password = req.body.password;
+  const start = process.hrtime();
+  user.activate({ email, password })
+  .then((user)=> {
+    const end = process.hrtime(start);
+    logger.log("info", "ACTIVATE-USER-TIME", `${end[0]}.${end[1]}`);
     if(user) {
       console.log("user", user)
       return res.status(200).send({ token: token.generate(user) });
@@ -70,4 +96,5 @@ const login = (req, res, next) => {
   });
 };
 
-export default { signup, login };
+
+export default { signup, login, activate };

@@ -5,12 +5,16 @@ const exist = (username, password) => {
     return userService.exist(username, password);
 };
 
-const get = (username, password) => {
-    return userService.get(username, password);
+const get = (email, password) => {
+    return userService.get(email, password);
 };
 
 const save = async data => {
     return userService.save(data);
 };
 
-export default { exist, get, save };
+const activate = async data => {
+    return userService.activate(data);
+};
+
+export default { exist, get, save, activate };

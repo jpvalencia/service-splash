@@ -58,7 +58,7 @@ const save = data => {
     });
   });
 };
-const get = (username, password) => {
+const get = (email, password) => {
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, function(e, db) {
       if (e) {
@@ -67,7 +67,7 @@ const get = (username, password) => {
       }
       db
         .collection("users")
-        .find({ username, password })
+        .find({ email, password })
         .toArray((e, result) => {
           if (e) {
             logger.log('error', "Error obteniendo el usuario", e);
@@ -82,6 +82,30 @@ const get = (username, password) => {
             resolve();
           }
         });
+    });
+  });
+};
+
+const activate = data => {
+  return new Promise((resolve, reject) => {
+    MongoClient.connect(url, function(e, db) {
+      if (e) {
+        logger.log('error', "Error en conexion a la base de datos", e);
+        reject();
+      }
+      db
+        .collection("users")
+        .insertMany(
+          [data],
+          (e, result) => {
+            if (e) {
+              logger.log('error', "Error insertando el usuario", e);
+              db.close();
+              reject();
+            }
+            resolve();
+          }
+        );
     });
   });
 };
