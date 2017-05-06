@@ -18,7 +18,7 @@ const signup = (req, res, next) => {
       start = process.hrtime();
       if (!exist) {
         user
-          .save({ email, password })
+          .save( email, password )
           .then(() => {
             end = process.hrtime(start);
             logger.log("info", "SAVE-USER-TIME", `${end[0]}.${end[1]}`);
@@ -77,12 +77,11 @@ const activate = (req, res, next) => {
   const email = req.body.email.toLowerCase();
   const password = req.body.password;
   const start = process.hrtime();
-  user.activate({ email, password })
+  user.activate( email, password )
   .then((user)=> {
     const end = process.hrtime(start);
     logger.log("info", "ACTIVATE-USER-TIME", `${end[0]}.${end[1]}`);
     if(user) {
-      console.log("user", user)
       return res.status(200).send({ token: token.generate(user) });
     }
     else {

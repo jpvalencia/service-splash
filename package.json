@@ -1,5 +1,12 @@
 {
   "name": "auth",
+  "version": "1.0",
+  "description": "Auth library",
+  "main": "src/index.js",
+  "engines": {
+    "npm": "3.10.8",
+    "node": "6.9.1"
+  },
   "scripts": {
     "build": "babel src -d build",
     "start": "node ./build/index.js",
@@ -9,10 +16,11 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "js-sha3": "^0.5.7",
     "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "mongodb": "^2.2.26",
+    "mysql": "^2.13.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {
