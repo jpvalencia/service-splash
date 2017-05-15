@@ -87,16 +87,16 @@ const get = (email, password) => {
     });
 };
 
-const activate = (email, password) => {
+const activate = (email, password, token) => {
   return new Promise((resolve, reject) => {
-      let query = `UPDATE hipopo.usuarios set status = 'ACTIVADO' WHERE email = ? AND password = ? `;
+      let query = `UPDATE hipopo.usuarios set status = 'ACTIVADO', password = ?, activacion_dt = now() WHERE email = ? AND activacion_hash = ? `;
 
       pool.getConnection(function(err, connection) {
         if (err) {
           logger.log("error", "error in mysql: " + err.stack);
           return resolve(false);
         };
-        connection.query(query, [email, sha3_512(password)], function(err, rows) {
+        connection.query(query, [sha3_512(password), email, token], function(err, rows) {
           connection.release();
           if (err) {
             logger.log("error", "error in mysql: " + err.stack);
@@ -110,4 +110,36 @@ const activate = (email, password) => {
       });
     });
 };
-export default { exist, save, get, activate };
+
+const validateTokenActivateAccount = (email, token) => {
+  return new Promise((resolve, reject) => {
+      let query = `SELECT email FROM hipopo.usuarios WHERE email = ? and activacion_hash = ? and status = 'DESACTIVADO'`;
+
+      pool.getConnection(function(err, connection) {
+        if (err) {
+          logger.log("error", "error in mysql: " + err.stack);
+          return resolve(false);
+        };
+        connection.query(query, [email, token], function(err, rows) {
+          connection.release();
+          if (err) {
+            logger.log("error", "error in mysql: " + err.stack);
+            resolve(false);
+            return;
+          }
+          if(isArray(rows) && rows.length > 0) {
+            resolve(true);
+            return;
+          }
+          else {
+            resolve(false);
+            return;
+          }
+
+        });
+      });
+    });
+};
+
+
+export default { exist, save, get, activate, validateTokenActivateAccount };

@@ -1,11 +1,10 @@
 {
   "name": "auth",
-  "version": "1.0",
   "description": "Auth library",
   "main": "src/index.js",
   "engines": {
     "npm": "3.10.8",
-    "node": "6.9.1"
+    "node": "7.7.3"
   },
   "scripts": {
     "build": "babel src -d build",

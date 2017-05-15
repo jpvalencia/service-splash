@@ -14,8 +14,12 @@ const save = (email, password) => {
     return userService.save(email, password);
 };
 
-const activate = (email, password) => {
-    return userService.activate(email, password);
+const activate = (email, password, token) => {
+    return userService.activate(email, password, token);
 };
 
-export default { exist, get, save, activate };
+const validateTokenActivateAccount = (email, token) => {
+    return userService.validateTokenActivateAccount(email, token);
+};
+
+export default { exist, get, save, activate, validateTokenActivateAccount };

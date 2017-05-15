@@ -18,7 +18,10 @@ app.get("/auth/validate", middAuth.authenticate, (req, res, next) => {
   return res.status(200).send();
   next();
 });
-app.post("/auth/activate", middAuth.authenticate, auth.activate);
+
+app.get("/auth/validate-token-activate-account", auth.validateTokenActivateAccount);
+
+app.post("/auth/activate", auth.activate);
 
 
 app.listen(app.get('port'), () => {

@@ -70,19 +70,49 @@ const login = (req, res, next) => {
 };
 
 const activate = (req, res, next) => {
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.email || !req.body.password || !req.body.token) {
     return res.status(422).send();
     next();
   }
   const email = req.body.email.toLowerCase();
   const password = req.body.password;
+  const token = req.body.token;
   const start = process.hrtime();
-  user.activate( email, password )
+  user.activate( email, password, token )
   .then((user)=> {
     const end = process.hrtime(start);
     logger.log("info", "ACTIVATE-USER-TIME", `${end[0]}.${end[1]}`);
     if(user) {
-      return res.status(200).send({ token: token.generate(user) });
+      logger.log("info", email + " ACTIVADO");
+      return res.status(200).send();
+    }
+    else {
+      logger.log("error", email + " NO ACTIVADO");
+      return res.status(401).send();
+    }
+    next();
+  })
+  .catch((e) => {
+    logger.log("error", "ERROR ACTIVANDO AL USUARIO " +  email , e);
+    return res.status(401).send();
+    next();
+  });
+};
+
+const validateTokenActivateAccount = (req, res, next) => {
+  if (!req.query.email || !req.query.token) {
+    return res.status(422).send();
+    next();
+  }
+  const email = req.query.email;
+  const token = req.query.token;
+  const start = process.hrtime();
+  user.validateTokenActivateAccount( email, token )
+  .then((active)=> {
+    const end = process.hrtime(start);
+    logger.log("info", "VALIDATE-TOKEN-ACTIVATE-ACCOUNT", `${end[0]}.${end[1]}`);
+    if(active) {
+      return res.status(200).send();
     }
     else {
       return res.status(401).send();
@@ -96,4 +126,4 @@ const activate = (req, res, next) => {
 };
 
 
-export default { signup, login, activate };
+export default { signup, login, activate, validateTokenActivateAccount };
