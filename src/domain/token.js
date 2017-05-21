@@ -4,7 +4,7 @@ import config from "../config/environment";
 
 const generate = user => {
   var payload = {
-    sub: user._id,
+    sub: user.email,
     iat: moment().unix(),
     exp: moment().add(15, "day").unix()
   };

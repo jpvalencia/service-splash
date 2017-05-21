@@ -59,7 +59,7 @@ const save = (email, password) => {
 };
 const get = (email, password) => {
   return new Promise((resolve, reject) => {
-      let query = `SELECT * FROM hipopo.usuarios WHERE email = ? AND password = ?`;
+      let query = `SELECT email FROM hipopo.usuarios WHERE email = ? AND password = ? AND status = "ACTIVADO"`;
 
       pool.getConnection(function(err, connection) {
         if (err) {
@@ -74,11 +74,11 @@ const get = (email, password) => {
             return;
           }
           if(isArray(rows) && rows.length > 0) {
-            resolve(true);
+            resolve(rows[0]);
             return;
           }
           else {
-            resolve(rows);
+            resolve(false);
             return;
           }
 

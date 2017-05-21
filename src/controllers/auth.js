@@ -56,7 +56,7 @@ const login = (req, res, next) => {
     const end = process.hrtime(start);
     logger.log("info", "GET-USER-TIME", `${end[0]}.${end[1]}`);
     if(user) {
-      return res.status(200).send({ token: token.generate(user) });
+      return res.status(200).send({ user: user, token: token.generate(user) });
     }
     else {
       return res.status(401).send();
