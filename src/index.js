@@ -3,11 +3,13 @@ import bodyParser from "body-parser";
 import auth from "./controllers/auth";
 import middAuth from "./middlewares/authenticate";
 import logger from './core/logger';
+import cors from "cors";
 
 // Configuramos Express
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({origin:true,credentials: true}));
 app.set("port", 3001);
 
 // Rutas de autenticación y login
