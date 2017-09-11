@@ -1,3 +1,4 @@
+import {omit} from 'lodash';
 import token from "../domain/token";
 import user from "../domain/user";
 import logger from "../core/logger";
@@ -56,7 +57,8 @@ const login = (req, res, next) => {
     const end = process.hrtime(start);
     logger.log("info", "GET-USER-TIME", `${end[0]}.${end[1]}`);
     if(user) {
-      return res.status(200).send({ user: user, token: token.generate(user) });
+      const cleanUser = omit(user, ['id']);
+      return res.status(200).send({ user: cleanUser, token: token.generate(user) });
     }
     else {
       return res.status(401).send();
