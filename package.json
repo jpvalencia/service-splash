@@ -2,15 +2,11 @@
   "name": "auth",
   "description": "Auth library",
   "main": "src/index.js",
-  "engines": {
-    "npm": "3.10.8",
-    "node": "7.7.3"
-  },
   "scripts": {
     "build": "babel src -d build",
     "start": "node ./build/index.js",
     "dev": "npm run build; node ./build/index.js",
-    "deploy": "now -e TOKEN_SECRET=@token_secret -e DB_USER=@db_user -e DB_PASSWORD=@db_password -e DB_HOST=@db_host -e DB_PORT=@db_port"
+    "deploy": "now -e TOKEN_SECRET=@token_secret -e DB_USER=@db_user -e DB_PASSWORD=@db_password -e DB_HOST=@db_host -e DB_PORT=@db_port; now alias"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
