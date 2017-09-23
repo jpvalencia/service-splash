@@ -13,7 +13,7 @@ var exist = function exist(email, user_password) {
         logger.log("error", "error in mysql: " + err.stack);
         return resolve(false);
       };
-      connection.query(query, [email, (0, _jsSha.sha3_512)(user_password)], function (err, rows) {
+      connection.query(query, [email,  sha3_512(user_password)], function (err, rows) {
         connection.release();
         if (err) {
           logger.log("error", "error in mysql: " + err.stack);
@@ -21,8 +21,8 @@ var exist = function exist(email, user_password) {
           return;
         }
 
-        if ((0, _lodash.isArray)(rows) && rows.length > 0) {
-          resolve(true);
+        if (isArray(rows) && rows.length > 0) {
+          resolve(true); 
           return;
         } else {
           resolve(false);
@@ -50,7 +50,7 @@ var exist_email = function exist_email(email) {
           return;
         }
 
-        if ((0, _lodash.isArray)(rows) && rows.length > 0) {
+        if ( isArray(rows) && rows.length > 0) {
           resolve(true);
           return;
         } else {
@@ -71,7 +71,7 @@ var save = function save(email, user_password) {
         logger.log("error", "error in mysql: " + err.stack);
         return resolve(false);
       };
-      connection.query(query, [email, (0, _jsSha.sha3_512)(user_password)], function (err, rows) {
+      connection.query(query, [email, sha3_512(user_password)], function (err, rows) {
         connection.release();
         if (err) {
           logger.log("error", "error in mysql: " + err.stack);
@@ -119,14 +119,14 @@ var get = function get(email, user_password) {
         logger.log("error", "error in mysql: " + err.stack);
         return resolve(false);
       };
-      connection.query(query, [email, (0, _jsSha.sha3_512)(user_password)], function (err, rows) {
+      connection.query(query, [email, sha3_512(user_password)], function (err, rows) {
         connection.release();
         if (err) {
           logger.log("error", "error in mysql: " + err.stack);
           resolve(false);
           return;
         }
-        if ((0, _lodash.isArray)(rows) && rows.length > 0) {
+        if (isArray(rows) && rows.length > 0) {
           resolve(rows[0]);
           return;
         } else {
@@ -147,7 +147,7 @@ var activate = function activate(email, user_password, token) {
         logger.log("error", "error in mysql: " + err.stack);
         return resolve(false);
       };
-      connection.query(query, [(0, _jsSha.sha3_512)(user_password), email, token], function (err, rows) {
+      connection.query(query,  [sha3_512(user_password), email, token], function (err, rows) {
         connection.release();
         if (err) {
           logger.log("error", "error in mysql: " + err.stack);
@@ -178,7 +178,7 @@ var validateTokenActivateAccount = function validateTokenActivateAccount(email, 
           resolve(false);
           return;
         }
-        if ((0, _lodash.isArray)(rows) && rows.length > 0) {
+        if (isArray(rows) && rows.length > 0) {
           resolve(true);
           return;
         } else {
