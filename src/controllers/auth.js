@@ -80,8 +80,8 @@ var login = function login(req, res, next) {
     var end = process.hrtime(start);
     logger.log("info", "GET-USER-TIME", end[0] + "." + end[1]);
     if (user) {
-      var cleanUser = (0, _lodash.omit)(user, ['id']);
-      return res.status(200).send({ user: cleanUser, token: _token2.default.generate(user) });
+      var cleanUser = omit(user, ['id']);
+      return res.status(200).send({ user: cleanUser, token: token.generate(user) });
     } else {
       return res.status(401).send();
     }
