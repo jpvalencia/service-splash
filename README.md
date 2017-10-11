@@ -19,6 +19,5 @@ npm run dev
 
 ## Endpoints
 
-- /auth/signup
-- /auth/login
-- /auth/validate
+- /auth/subscribe
+
